@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+{% block content %}
+{% endblock %}
+
+</body>
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            Base
+        {% endblock %}
+    </title>
+    {% load staticfiles %}
+    <!-- Loading all static files only in base.html and all other templates just extends it -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    {% block js %}
+    {% endblock %}
+</head>
+</html>

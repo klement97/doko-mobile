@@ -1,0 +1,39 @@
+{% extends 'mobile/base.html' %}
+{% load staticfiles %}
+
+{% block js %}
+    <script src="{% static 'js/manager.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+    Manager
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for e in emails %}
+            {% if e in unread_emails %}
+                {# Unread emails comes here #}
+                <div class="email-card">
+                    <li class="email">
+                        <button type="button" onclick="read({{ e.id }})" id="button_id_{{ e.id }}">
+                            {{ e.email }}
+                            <span class="email-time"> {{ e.time }} </span>
+                            <span class="email-date"> {{ e.date }} </span>
+                        </button>
+                    </li>
+                    <h4 class="message"> {{ e.message }} </h4>
+                </div>
+            {% else  %}
+                {# Read emails comes here #}
+                <div class="email-card unread-email">
+                    <li class="email"> {{ e.email }}
+                        <span class="email-time"> {{ e.time }} </span>
+                        <span class="email-date"> {{ e.date }} </span>
+                    </li>
+                    <h4 class="message">{{ e.message }}</h4>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

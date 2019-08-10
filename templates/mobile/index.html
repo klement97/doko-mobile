@@ -1,0 +1,31 @@
+{% extends 'mobile/base.html' %}
+{% load staticfiles %}
+{% block js %}
+    <script src="{% static 'js/index.js' %}"></script>
+{% endblock %}
+{% block title %}
+    Doko Mobile
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome to Doko Mobile</h1>
+    <h2>All content will come here</h2>
+
+    <p>Subscription Form</p>
+
+    <form>
+        {% csrf_token %}
+
+        <label for="email">Email :</label>
+        <input name="email" type="email" id="email" placeholder="example@example.com">
+        <p id="email_info"></p>
+        <h5>Enter your email here please</h5>
+
+
+        <label for="message">Message :</label>
+        <textarea name="message" id="message" cols="30" rows="10" placeholder="Type your message here..."></textarea>
+        <h5>Ask us anything</h5>
+
+        <button type="button" id="subscribe_btn">Subscribe</button>
+    </form>
+{% endblock %}
