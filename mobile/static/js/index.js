@@ -20,6 +20,7 @@ $(function ($) {
                 type: 'GET',
                 data: {
                     'email': email,
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
                 },
                 dataType: 'json',
                 beforeSend: function () {
