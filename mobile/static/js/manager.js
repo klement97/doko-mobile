@@ -1,4 +1,4 @@
-BASE_URL = 'https://dokomobile.herokuapp.com';
+BASE_URL = window.location.origin;
 $(function ($) {
 
 });
