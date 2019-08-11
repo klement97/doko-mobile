@@ -2,7 +2,7 @@ BASE_URL = window.location.origin;
 
 function isValid(email) {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+    return re.test(String(email));
 }
 
 $(function ($) {
@@ -15,12 +15,13 @@ $(function ($) {
 
         // checking if email is valid with regex before posting
         if (isValid(email)) {
+            let token = '{{csrf_token}}';
             $.ajax({
                 url: `${BASE_URL}/ajax/validate_email/`,
                 type: 'GET',
+                headers: {'X-CSRFToken': token},
                 data: {
-                    'email': email,
-                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                    'email': email
                 },
                 dataType: 'json',
                 beforeSend: function () {
@@ -47,12 +48,21 @@ $(function ($) {
 
 
     // Email register's ajax call
-    $('#subscribe_btn').on('click', function () {
+    $('#subscribe_btn').on('click', function (e) {
+        e.preventDefault();
         console.log('Entered onclick event');
+        let email = document.getElementById('email').value;
+        let message = document.getElementById('message').value;
         let emailInfo = document.getElementById('email_info');
         $.ajax({
-                url: `${BASE_URL}/register/`,
-                type: 'post',
+                url: `${BASE_URL}/`,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    email: email,
+                    message: message,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
                 beforeSend: function () {
                     console.log("Sending");
                 },
@@ -60,7 +70,9 @@ $(function ($) {
                     console.log("Sent");
                 },
                 success: function (data) {
-                    emailInfo.textContent = data.success;
+                    if (data.registered) {
+                        emailInfo.textContent = data.message;
+                    }
                 },
                 error: function () {
                     emailInfo.textContent = 'Error';

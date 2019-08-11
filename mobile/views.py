@@ -1,10 +1,33 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, TemplateView, DeleteView, UpdateView
 
 from mobile.forms import EmailForm
 from mobile.models import Email
+
+
+def register(request):
+    template_name = 'mobile/index.html'
+    form_class = EmailForm
+
+    form = form_class
+
+    data = {
+        'registered': True,
+        'message': 'You have been subscribed successfully'
+    }
+
+    if request.method == 'POST':
+        form = form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return JsonResponse(data=data)
+        else:
+            return JsonResponse(data=form.errors)
+    else:
+        return render(request, template_name)
 
 
 def validate_email(request):
@@ -41,13 +64,6 @@ class ManagerPageView(LoginRequiredMixin, ListView):
         context['unread_emails'] = Email.objects.filter(is_read=False)
         context['emails'] = Email.objects.all()
         return context
-
-
-class RegisterView(CreateView):
-    model = Email
-    form_class = EmailForm
-    template_name = 'mobile/index.html'
-    success_url = reverse_lazy('home')
 
 
 class EmailDeleteView(LoginRequiredMixin, DeleteView):
