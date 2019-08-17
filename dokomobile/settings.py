@@ -127,9 +127,9 @@ USE_TZ = True
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'mobile/static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'mobile/static'),
+# )
 # web: python manage.py runserver 0.0.0.0:$PORT
 
 LOGIN_URL = '/accounts/login/'
