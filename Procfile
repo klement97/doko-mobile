@@ -1,1 +1,1 @@
-web: gunicorn Site.wsgi --log-file -
+web: gunicorn dokomobile.wsgi --log-file -
